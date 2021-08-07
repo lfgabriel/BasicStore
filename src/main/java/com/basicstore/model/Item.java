@@ -16,7 +16,7 @@ public class Item implements Serializable {
 	@GeneratedValue
 	private Long id;
 	private String name;
-	private String price;
+	private Double price;
 	
 	
 	public Long getId() {
@@ -35,11 +35,11 @@ public class Item implements Serializable {
 		this.name = name;
 	}
 
-	public String getPrice() {
+	public Double getPrice() {
 		return price;
 	}
 
-	public void setPrice(String price) {
+	public void setPrice(Double price) {
 		this.price = price;
 	}
 

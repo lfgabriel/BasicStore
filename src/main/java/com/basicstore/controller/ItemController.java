@@ -1,6 +1,5 @@
 package com.basicstore.controller;
 
-import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +8,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.basicstore.model.Client;
 import com.basicstore.model.Item;
+import com.basicstore.model.Stock;
 import com.basicstore.service.IItemService;
 
 @RestController
@@ -25,6 +26,7 @@ public class ItemController {
 	
 	@RequestMapping("/item/add")
 	public Item addItem(@RequestBody Item item) {
+		System.err.println("item: " + item);
 		return itemService.save(item);
 	}
 	
@@ -38,7 +40,7 @@ public class ItemController {
 		return item;
 	}
 	
-	@RequestMapping("item/delete/{itemId}")
+	@RequestMapping("/item/delete/{itemId}")
 	public int deleteItem(@PathVariable String itemId) {
 		return itemService.remove(Long.valueOf(itemId));
 	}

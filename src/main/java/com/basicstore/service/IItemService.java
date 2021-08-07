@@ -1,6 +1,5 @@
 package com.basicstore.service;
 
-import java.util.HashMap;
 import java.util.List;
 
 import com.basicstore.model.Item;
@@ -13,8 +12,7 @@ public interface IItemService {
 	
 	List<Item> findByName(String name);
 
-	Item save(Item city);
+	Item save(Item item);
 	
 	int remove(Long id);
-
 }

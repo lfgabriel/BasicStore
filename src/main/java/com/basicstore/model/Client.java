@@ -1,13 +1,18 @@
 package com.basicstore.model;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
-public class Consumer implements Serializable {
+public class Client implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 	
@@ -18,14 +23,18 @@ public class Consumer implements Serializable {
 	private String email;
 	private String CPF;
 	
+	@OneToMany(mappedBy="client")
+	@JsonIgnoreProperties("requests")
+	@JsonIgnore
+	private List<Request> requests;
 
 	
-	public Consumer() {
+	public Client() {
 		super();
 	}
 	
 	
-	public Consumer(Long id, String name, String email, String CPF) {
+	public Client(Long id, String name, String email, String CPF) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -69,14 +78,14 @@ public class Consumer implements Serializable {
 	}
 
 
-	public void setCPF(String cPF) {
-		CPF = cPF;
+	public void setCPF(String CPF) {
+		this.CPF = CPF;
 	}
 
 
 	@Override
 	public String toString() {
-		return "Consumer [id=" + id + ", name=" + name + ", email=" + email + ", CPF=" + CPF + "]";
+		return "Client [id=" + id + ", name=" + name + ", email=" + email + ", CPF=" + CPF + "]";
 	}
 
 	

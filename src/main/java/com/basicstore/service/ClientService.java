@@ -6,24 +6,24 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.basicstore.model.Consumer;
-import com.basicstore.repository.ConsumerRepository;
+import com.basicstore.model.Client;
+import com.basicstore.repository.ClientRepository;
 
 @Service
-public class ConsumerService implements IConsumerService {
+public class ClientService implements IClientService {
 	
 	@Autowired
-	private ConsumerRepository consumerRepository;
+	private ClientRepository consumerRepository;
 	
 
 	@Override
-	public Iterable<Consumer> findAll() {
+	public Iterable<Client> findAll() {
 		return consumerRepository.findAll();
 	}
 
 	@Override
-	public Consumer findById(Long id) {
-		Optional<Consumer> optConsumer = consumerRepository.findById(id);
+	public Client findById(Long id) {
+		Optional<Client> optConsumer = consumerRepository.findById(id);
 		
 		if (optConsumer.get() != null) {
 		    return optConsumer.get();
@@ -33,18 +33,18 @@ public class ConsumerService implements IConsumerService {
 	}
 
 	@Override
-	public List<Consumer> findByName(String name) {
+	public List<Client> findByName(String name) {
 		return null;
 	}
 
 	@Override
-	public Consumer save(Consumer consumer) {
+	public Client save(Client consumer) {
 		return consumerRepository.save(consumer);
 	}
 
 	@Override
 	public int remove(Long id) {
-		Optional<Consumer> optConsumer = consumerRepository.findById(id);
+		Optional<Client> optConsumer = consumerRepository.findById(id);
 		if (optConsumer.get() != null ) {
 			consumerRepository.delete(optConsumer.get());
 			return 1;
