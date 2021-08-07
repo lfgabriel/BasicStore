@@ -1,10 +1,10 @@
-package com.coronatracker.demo;
+package com.basicstore;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class CoronaTrackerApplicationTests {
+class BasicStoreApplicationTests {
 
 	@Test
 	void contextLoads() {
