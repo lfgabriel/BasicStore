@@ -1,16 +1,18 @@
 package com.basicstore.controller;
 
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.basicstore.model.Client;
+import com.basicstore.dto.ItemDto;
 import com.basicstore.model.Item;
-import com.basicstore.model.Stock;
 import com.basicstore.service.IItemService;
 
 @RestController
@@ -19,25 +21,36 @@ public class ItemController {
 	@Autowired
 	private IItemService itemService;
 	
+	@Autowired
+    private ModelMapper modelMapper;
+	
 	@RequestMapping("/items")
-    public Iterable<Item> cities() {
-		return itemService.findAll();
+    public List<ItemDto> items() {
+		Iterable<Item> items = itemService.findAll();
+		List<ItemDto> result = StreamSupport.stream(items.spliterator(), false).map(this::convertToDto).collect(Collectors.toList());
+		
+		return result;
     }
 	
 	@RequestMapping("/item/add")
-	public Item addItem(@RequestBody Item item) {
-		System.err.println("item: " + item);
-		return itemService.save(item);
+	public ItemDto addItem(@RequestBody ItemDto itemDto) {
+		Item item = convertToEntity(itemDto);
+		Item createdItem = itemService.save(item); 
+		return convertToDto(createdItem);
 	}
 	
 	@RequestMapping("/item/{itemName}")
-	public List<Item> findbyName(@PathVariable String itemName) {
-		return itemService.findByName(itemName);
+	public List<ItemDto> findbyName(@PathVariable String itemName) {
+		List<Item> items = itemService.findByName(itemName);
+		List<ItemDto> itemsDto = items.stream().map(this::convertToDto).collect(Collectors.toList());
+		return itemsDto;
 	}
 	
 	@RequestMapping("/item/update")
-	public Item updateItem(Item item) {
-		return item;
+	public ItemDto updateItem(@RequestBody ItemDto itemDto) {
+		Item item = convertToEntity(itemDto);
+		Item updatedItem = itemService.save(item);
+		return convertToDto(updatedItem);
 	}
 	
 	@RequestMapping("/item/delete/{itemId}")
@@ -45,5 +58,15 @@ public class ItemController {
 		return itemService.remove(Long.valueOf(itemId));
 	}
 	
-
+	
+	private ItemDto convertToDto(Item item) {
+		ItemDto itemDto = modelMapper.map(item, ItemDto.class);
+		return itemDto;
+	}
+	
+	private Item convertToEntity(ItemDto itemDto) {
+		Item item = modelMapper.map(itemDto, Item.class);
+		return item;
+	}
+	
 }
